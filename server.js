@@ -152,12 +152,16 @@ app.get("/api/macro", async (_req, res) => {
   res.json(result);
 });
 
-app.get("*", (_req, res) => {
+/*
+  Express 5 compatible catch-all route.
+  IMPORTANT: Do not change this back to app.get("*"...)
+*/
+app.use((_req, res) => {
   res.sendFile("index.html", {
     root: "public"
   });
 });
 
 app.listen(port, () => {
-  console.log(`Gold Macro Dashboard running on port ${port}`);
+  console.log(`Gold Macro Dashboard running on ${port}`);
 });
