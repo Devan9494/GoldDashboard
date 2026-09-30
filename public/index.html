@@ -1,1 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Gold Macro Dashboard</title>
+
+<style>
+:root{
+  --bg:#070b11;
+  --panel:#0d131c;
+  --border:#202a37;
+  --text:#e8edf4;
+  --muted:#7f8da1;
+  --green:#19c37d;
+  --red:#ff5b68;
+  --amber:#f5b942;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+}
+
+header{
+  padding:18px 22px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+h1{
+  margin:0;
+  font-size:19px;
+}
+
+.subtitle{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:4px;
+}
+
+.status{
+  color:var(--muted);
+  font-size:12px;
+}
+
+main{
+  max-width:1500px;
+  margin:auto;
+  padding:18px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1.3fr 1fr;
+  gap:14px;
+}
+
+.panel{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:15px;
+}
+
+.title{
+  color:var(--muted);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  margin-bottom:12px;
+}
+
+.score{
+  font-size:58px;
+  font-weight:800;
+  line-height:1;
+}
+
+.bias{
+  font-size:19px;
+  font-weight:800;
+  margin:9px 0 18px;
+}
+
+.metrics{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.metric{
+  background:#090f17;
+  border:1px solid var(--border);
+  padding:11px;
+  border-radius:8px;
+}
+
+.label{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.value{
+  font-size:19px;
+  font-weight:700;
+  margin-top:5px;
+}
+
+.rows{
+  display:grid;
+  gap:4px;
+}
+
+.row{
+  display:grid;
+  grid-template-columns:1fr 100px 55px;
+  gap:8px;
+  align-items:center;
+  padding:9px 0;
+  border-bottom:1px solid #18212c;
+}
+
+.bar{
+  height:6px;
+  background:#18212c;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.fill{
+  height:100%;
+  width:0%;
+  display:block;
+  background:var(--green);
+}
+
+.chart{
+  height:350px;
+}
+
+.note{
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.5;
+  margin-top:12px;
+}
+
+@media(max-width:900px){
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .metrics{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  header{
+    padding:14px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div>
+<h1>GOLD MACRO DASHBOARD</h1>
+
+<div class="subtitle">
+XAU/USD • Macro Regime • Decision Support
+</div>
+
+</div>
+
+<div class="status" id="status">
+Connecting...
+</div>
+
+</header>
+
+<main>
+
+<div class="grid">
+
+<section class="panel">
+
+<div class="title">
+Fundamental Regime
+</div>
+
+<div class="score" id="score">
+—
+</div>
+
+<div class="bias" id="bias" style="color:var(--amber)">
+LOADING
+</div>
+
+<div class="metrics">
+
+<div class="metric">
+<div class="label">Gold Spot</div>
+<div class="value" id="gold">—</div>
+</div>
+
+<div class="metric">
+<div class="label">US 2Y</div>
+<div class="value" id="us2y">—</div>
+</div>
+
+<div class="metric">
+<div class="label">US 10Y</div>
+<div class="value" id="us10y">—</div>
+</div>
+
+<div class="metric">
+<div class="label">Fed Funds</div>
+<div class="value" id="fed">—</div>
+</div>
+
+<div class="metric">
+<div class="label">CPI</div>
+<div class="value" id="cpi">—</div>
+</div>
+
+<div class="metric">
+<div class="label">DXY</div>
+<div class="value">TradingView</div>
+</div>
+
+</div>
+
+<div class="note">
+The dashboard does not invent a directional score when required
+macro feeds are unavailable. Macro conditions should be confirmed
+with price action, volatility and liquidity.
+</div>
+
+</section>
+
+
+<section class="panel">
+
+<div class="title">
+Macro Score Engine • 100 Points
+</div>
+
+<div class="rows">
+
+<div class="row">
+<span>US 2Y Yield <small>25 pts</small></span>
+<span class="bar"><i class="fill"></i></span>
+<b>0</b>
+</div>
+
+<div class="row">
+<span>US 10Y Yield <small>20 pts</small></span>
+<span class="bar"><i class="fill"></i></span>
+<b>0</b>
+</div>
+
+<div class="row">
+<span>DXY <small>20 pts</small></span>
+<span class="bar"><i class="fill"></i></span>
+<b>0</b>
+</div>
+
+<div class="row">
+<span>Fed Expectations <small>15 pts</small></span>
+<span class="bar"><i class="fill"></i></span>
+<b>0</b>
+</div>
+
+<div class="row">
+<span>Economic Surprise <small>10 pts</small></span>
+<span class="bar"><i class="fill"></i></span>
+<b>0</b>
+</div>
+
+<div class="row">
+<span>COT Positioning <small>5 pts</small></span>
+<span class="bar"><i class="fill"></i></span>
+<b>0</b>
+</div>
+
+</div>
+
+<div class="note">
+2Y 25 • 10Y 20 • DXY 20 • Fed 15 • Economic Data 10 • COT 5
+</div>
+
+</section>
+
+</div>
+
+
+<div class="grid" style="margin-top:14px">
+
+<section class="panel">
+<div class="title">XAU/USD</div>
+<div class="chart" id="xau"></div>
+</section>
+
+<section class="panel">
+<div class="title">DXY</div>
+<div class="chart" id="dxy"></div>
+</section>
+
+<section class="panel">
+<div class="title">US 2Y Treasury Yield</div>
+<div class="chart" id="y2"></div>
+</section>
+
+<section class="panel">
+<div class="title">US 10Y Treasury Yield</div>
+<div class="chart" id="y10"></div>
+</section>
+
+</div>
+
+</main>
+
+
+<script>
+
+function createTradingViewChart(elementId,symbol){
+
+const script=document.createElement("script");
+
+script.src=
+"https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
+
+script.async=true;
+
+script.innerHTML=JSON.stringify({
+
+autosize:true,
+
+symbol:symbol,
+
+interval:"60",
+
+timezone:"Etc/UTC",
+
+theme:"dark",
+
+style:"1",
+
+locale:"en",
+
+allow_symbol_change:false,
+
+save_image:false,
+
+hide_top_toolbar:false,
+
+hide_legend:false
+
+});
+
+document.getElementById(elementId).appendChild(script);
+
+}
+
+
+function formatNumber(value,suffix=""){
+
+if(value===null || value===undefined || !Number.isFinite(Number(value))){
+return "—";
+}
+
+return Number(value).toFixed(2)+suffix;
+
+}
+
+
+async function loadMacro(){
+
+try{
+
+const response=await fetch(
+"/api/macro",
+{cache:"no-store"}
+);
+
+if(!response.ok){
+
+throw new Error(
+"Server returned "+response.status
+);
+
+}
+
+const data=await response.json();
+
+const v=data.values;
+
+
+document.getElementById("gold").textContent=
+formatNumber(v.gold);
+
+document.getElementById("us2y").textContent=
+formatNumber(v.us2y,"%");
+
+document.getElementById("us10y").textContent=
+formatNumber(v.us10y,"%");
+
+document.getElementById("fed").textContent=
+formatNumber(v.fed,"%");
+
+document.getElementById("cpi").textContent=
+formatNumber(v.cpi,"%");
+
+
+document.getElementById("status").textContent=
+"Server connected";
+
+
+document.getElementById("score").textContent=
+"0";
+
+
+const bias=document.getElementById("bias");
+
+bias.textContent=
+"NO TRADE • INSUFFICIENT DIRECTIONAL DATA";
+
+bias.style.color="var(--amber)";
+
+
+}catch(error){
+
+document.getElementById("status").textContent=
+"Data error: "+error.message;
+
+
+const bias=document.getElementById("bias");
+
+bias.textContent="DATA ERROR";
+
+bias.style.color="var(--red)";
+
+}
+
+}
+
+
+createTradingViewChart(
+"xau",
+"OANDA:XAUUSD"
+);
+
+createTradingViewChart(
+"dxy",
+"TVC:DXY"
+);
+
+createTradingViewChart(
+"y2",
+"TVC:US02Y"
+);
+
+createTradingViewChart(
+"y10",
+"TVC:US10Y"
+);
+
+
+loadMacro();
+
+setInterval(
+loadMacro,
+60000
+);
+
+</script>
+
+</body>
+</html>
